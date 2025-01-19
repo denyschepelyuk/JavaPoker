@@ -99,7 +99,7 @@ public class Card {
         return getRankValue(this.rank) > getRankValue(other.rank);
     }
 
-    private int getRankValue(Rank rank) {
+    public int getRankValue(Rank rank) {
         switch (rank) {
             case TWO: return 2;
             case THREE: return 3;
