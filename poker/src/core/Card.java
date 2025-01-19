@@ -86,7 +86,7 @@ public class Card {
 
     /**
      * Returns a readable description of the card.
-     * Example: "Ace of Spades"
+     * Example: "♠A"
      */
     public String getDescription() {
         return suit.getSymbol() + rank.getName();
@@ -94,7 +94,6 @@ public class Card {
 
     /**
      * Compares two cards based on rank.
-     * (For a complete poker implementation, you should compare entire hands, not just single cards.)
      */
     public boolean isGreaterThan(Card other) {
         return getRankValue(this.rank) > getRankValue(other.rank);
