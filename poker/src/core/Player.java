@@ -45,8 +45,6 @@ public class Player {
     }
 
     public int bet() {
-        // A placeholder that returns 10 as a default bet.
-        // In a real application, you'd read user input or run AI logic.
         return 10;
     }
 
