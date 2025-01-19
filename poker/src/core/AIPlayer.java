@@ -15,7 +15,7 @@ public class AIPlayer extends Player {
             check();
         } else {
             int randomBet = (int) (Math.random() * getChips()/50);
-            makeBet(randomBet * 50);
+            bet(randomBet * 50);
         }
     }
 

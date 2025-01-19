@@ -27,12 +27,18 @@ public class Player {
         System.out.println(name + " folded.");
     }
 
-    public void makeBet(int amount) {
+    public void bet(int amount) {
         amount = Math.min(amount, chips);
         chips -= amount;
         bet += amount;
         game.getTable().addBet(amount);
         System.out.println(name + " bet " + amount + " chips.");
+    }
+
+    public void call() {
+        int highestBet = game.getHighestBet();
+        int amount = Math.min(highestBet - bet, chips);
+        bet(amount);
     }
 
     public void check() {
