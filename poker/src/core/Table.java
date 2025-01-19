@@ -11,11 +11,23 @@ public class Table {
         pot = 0;
     }
 
+    public void deal(Deck deck){
+        if (communityCards.size() == 5) { return; }
+
+        addCommunityCard(deck.dealCard());
+
+        if (communityCards.size() == 1) {
+            for (int i = 0; i < 2; i++) {
+                addCommunityCard(deck.dealCard());
+            }
+        }
+    }
+
     public void addCommunityCard(Card card) {
         communityCards.add(card);
     }
 
-    public void resetTable() {
+    public void reset() {
         communityCards.clear();
         pot = 0;
     }
