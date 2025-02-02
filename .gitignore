@@ -1,4 +1,5 @@
 ### IntelliJ IDEA ###
+*.class
 *.iml
 .idea/
 out/
