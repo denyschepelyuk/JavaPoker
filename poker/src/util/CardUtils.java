@@ -1,8 +1,7 @@
 package util;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.ArrayList;
+import java.util.*;
+
 import core.Card;
 import core.Game;
 import core.Player;
@@ -64,6 +63,19 @@ public class CardUtils {
         return null;
     }
     private static Card.Rank isPair(ArrayList<Card> hand) {
+        return null;
+    }
+
+    private static Card.Rank findSameRank(ArrayList<Card> hand, int count) {
+        Map<Card.Rank, Integer> rankCount = new HashMap<>();
+        for (Card card : hand) {
+            rankCount.put(card.getRank(), rankCount.getOrDefault(card.getRank(), 0) + 1);
+        }
+        for (Map.Entry<Card.Rank, Integer> entry : rankCount.entrySet()) {
+            if (entry.getValue() == count) {
+                return entry.getKey();
+            }
+        }
         return null;
     }
 
