@@ -13,7 +13,7 @@ public class ConsoleUI {
         block.append(" +").append("-".repeat(BLOCK_WIDTH - 2)).append("+\n");
         block.append(" |").append(centerText(title, BLOCK_WIDTH - 2)).append("|\n");
         block.append(" |").append(centerText(content, BLOCK_WIDTH - 2)).append("|\n");
-        block.append(" +").append("-".repeat(BLOCK_WIDTH - 2));
+        block.append(" +").append("-".repeat(BLOCK_WIDTH - 2)).append("+");
         return block.toString();
     }
 
