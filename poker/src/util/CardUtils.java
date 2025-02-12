@@ -10,6 +10,8 @@ public class CardUtils {
         int bestHandValue = 11;
 
         for (Player player : game.getPlayers()) {
+            if (player.isFolded()) continue;
+
             int handValue = evaluateHand(player.getHand(), game.getTable().getCommunityCards());
             if (handValue < bestHandValue) {
                 bestHandValue = handValue;
