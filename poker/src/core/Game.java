@@ -1,8 +1,7 @@
 package core;
 
-import ui.InputHandler;
-import ui.ConsoleUI;
-import util.CardUtils;
+import ui.*;
+import util.*;
 
 import java.util.ArrayList;
 
@@ -11,7 +10,7 @@ public class Game {
     private Table table;
     private ArrayList<Player> players;
     private ConsoleUI UI;
-    private InputHandler inputHandler;
+    private CommandHandler commandHandler;
     private boolean isRunning;
 
     public Game() {
@@ -19,8 +18,8 @@ public class Game {
         table = new Table();
         players = new ArrayList<>();
         UI = new ConsoleUI();
-        inputHandler = new InputHandler();
         isRunning = true;
+        commandHandler = new CommandHandler(this);
     }
 
     public void _init(int playersCount) {
@@ -65,9 +64,9 @@ public class Game {
         UI.renderGame(this);
     }
 
-    // TODO: Implement correct winner logic
     private void _findWinner() {
-        Player winner = null;
+        Player winner = CardUtils.compareHands(this);
+        winner.setChips(winner.getChips() + table.getPotAmount());
         UI.displayWinner(winner);
     }
 
@@ -83,7 +82,9 @@ public class Game {
             _render();
 
             // Human player makes decision
-            handleInput();
+            if (!players.get(0).isFolded()) {
+                commandHandler.handleInput();
+            }
 
             if (_gameEnded()) {
                 isRunning = false;
@@ -99,56 +100,9 @@ public class Game {
 
     public int getHighestBet() {
         int highestBet = 0;
-        for (Player p : players) {
-            if (p.getBetAmount() > highestBet) {
+        for (Player p : players)
+            if (p.getBetAmount() > highestBet)
                 highestBet = p.getBetAmount();
-            }
-        }
         return highestBet;
-    }
-
-    private String extractCommand(String line) {
-        return line.split(" ")[0];
-    }
-    private int extractNum(String line) {
-        try{
-            return Integer.parseInt(line.split(" ")[1]);
-        }
-        catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
-            return -1;
-        }
-    }
-    private void handleInput() {
-        String line = inputHandler.getCommand();
-        String command = extractCommand(line);
-        int num = extractNum(line);
-
-        switch (command) {
-            case "fold":
-                players.get(0).fold();
-                break;
-            case "bet":
-                if (num != -1) {
-                    players.get(0).bet(num);
-                }
-                else {
-                    System.out.println("Invalid bet amount");
-                }
-                break;
-            case "call":
-                players.get(0).call();
-                break;
-            case "check":
-                if (getHighestBet() > players.get(0).getBetAmount()) {
-                    System.out.println("You can't check, you need to call, raise or fold.");
-                    handleInput();
-                    break;
-                }
-                players.get(0).check();
-                break;
-            default:
-                System.out.println("Invalid command");
-                break;
-        }
     }
 }
