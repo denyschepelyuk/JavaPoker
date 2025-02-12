@@ -67,7 +67,7 @@ public class Game {
     private void _findWinner() {
         Player winner = CardUtils.compareHands(this);
         winner.setChips(winner.getChips() + table.getPotAmount());
-        UI.displayWinner(winner);
+        UI.displayWinner(this, winner);
     }
 
     // Getters
@@ -80,6 +80,10 @@ public class Game {
             // AI players make decisions
             _update();
             _render();
+            if (_gameEnded()) {
+                isRunning = false;
+                break;
+            }
 
             // Human player makes decision
             if (!players.get(0).isFolded()) {
@@ -88,6 +92,7 @@ public class Game {
 
             if (_gameEnded()) {
                 isRunning = false;
+                break;
             }
 
             table.deal(deck);

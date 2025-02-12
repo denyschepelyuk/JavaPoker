@@ -6,31 +6,75 @@ import core.Table;
 import core.Card;
 
 public class ConsoleUI {
-    public void renderGame(Game game) {
-        Table table = game.getTable();
+    private static final int BLOCK_WIDTH = 25;
 
-        System.out.println("\n--- Table State ---");
-        System.out.println("Pot: " + table.getPotAmount());
-        System.out.println("Community Cards:");
-
-        for (Card card : table.getCommunityCards()) {
-            System.out.println("  " + card.getDescription());
-        }
-
-        System.out.println("\n--- Players ---");
-        for (Player player : game.getPlayers()) {
-            System.out.println(player.getName() + " [Chips: " + player.getChips() + "]"
-                    + (player.isFolded() ? " (Folded)" : ""));
-            if (!player.isFolded()) {
-                for (Card c : player.getHand()) {
-                    System.out.println("  " + c.getDescription());
-                }
-            }
-        }
-        System.out.println();
+    private String createBlock(String title, String content) {
+        StringBuilder block = new StringBuilder();
+        block.append(" +").append("-".repeat(BLOCK_WIDTH - 2)).append("+\n");
+        block.append(" |").append(centerText(title, BLOCK_WIDTH - 2)).append("|\n");
+        block.append(" |").append(centerText(content, BLOCK_WIDTH - 2)).append("|\n");
+        block.append(" +").append("-".repeat(BLOCK_WIDTH - 2));
+        return block.toString();
     }
 
-    public void displayWinner(Player player) {
-        System.out.println("The winner is: " + player.getName() + " with " + player.getChips() + " chips!");
+    private String centerText(String text, int width) {
+        int padding = (width - text.length()) / 2;
+        return " ".repeat(padding) + text + " ".repeat(width - text.length() - padding);
+    }
+
+    public void renderGame(Game game) {
+        System.out.println("=============================");
+
+        Table table = game.getTable();
+
+        StringBuilder communityCards = new StringBuilder();
+        for (Card card : table.getCommunityCards()) {
+            communityCards.append(card.getDescription()).append(" ");
+        }
+
+        System.out.println(createBlock("Community Cards", communityCards.toString().trim()));
+        System.out.println(createBlock("Pot", String.valueOf(table.getPotAmount())));
+
+        for (Player player : game.getPlayers()) {
+            StringBuilder playerHand = new StringBuilder();
+            if (player.isFolded()) {
+                playerHand.append("Folded");
+            } else if (player.getName().equals("You")) {
+                for (Card c : player.getHand()) {
+                    playerHand.append(c.getDescription()).append(" ");
+                }
+            } else {
+                playerHand.append("&$#@*");
+            }
+            System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
+        }
+
+        System.out.println("=============================");
+    }
+
+    public void displayWinner(Game game, Player winner) {
+        System.out.println("The winner is: " + winner.getName() + " with " + winner.getChips() + " chips!");
+
+        Table table = game.getTable();
+
+        StringBuilder communityCards = new StringBuilder();
+        for (Card card : table.getCommunityCards()) {
+            communityCards.append(card.getDescription()).append(" ");
+        }
+
+        System.out.println(createBlock("Community Cards", communityCards.toString().trim()));
+        System.out.println(createBlock("Pot", String.valueOf(table.getPotAmount())));
+
+        for (Player player : game.getPlayers()) {
+            StringBuilder playerHand = new StringBuilder();
+            if (player.isFolded()) {
+                playerHand.append("Folded");
+            } else {
+                for (Card c : player.getHand()) {
+                    playerHand.append(c.getDescription()).append(" ");
+                }
+            }
+            System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
+        }
     }
 }
