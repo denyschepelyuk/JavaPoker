@@ -52,7 +52,7 @@ public class Game {
         return (activePlayers <= 1);
     }
 
-    private void _update() {
+    private void _updateAIPlayers() {
         for (Player p : players) {
             if (p instanceof AIPlayer && !p.isFolded()) {
                 ((AIPlayer) p).makeDecision();
@@ -78,7 +78,7 @@ public class Game {
         _init(playersCount);
         while (isRunning) {
             // AI players make decisions
-            _update();
+            _updateAIPlayers();
             _render();
             if (_gameEnded()) {
                 isRunning = false;
@@ -101,6 +101,9 @@ public class Game {
         }
         _findWinner();
         table.reset();
+        for (Player p : players) {
+            p.reset();
+        }
     }
 
     public int getHighestBet() {

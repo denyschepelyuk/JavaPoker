@@ -7,15 +7,30 @@ public class AIPlayer extends Player {
 
     public void makeDecision() {
         double randomValue = Math.random();
-        if (randomValue < 0.2) {
+        int toCall = game.getHighestBet();
+
+        if (randomValue < 0.1) {
             fold();
-        } else if (randomValue < 0.4) {
-            check();
-        } else if (randomValue < 0.6) {
-            check();
-        } else {
-            int randomBet = (int) (Math.random() * getChips()/50);
-            bet(randomBet * 50);
+            return;
+        }
+
+        if (toCall > getBetAmount()){
+            if (randomValue < 0.5) {
+                call();
+            }
+            else {
+                int randomBet = (int) (Math.random() * getChips()/50);
+                bet(toCall - getBetAmount() + randomBet * 50);
+            }
+        }
+        else{
+            if (randomValue < 0.5) {
+                check();
+            }
+            else {
+                int randomBet = (int) (Math.random() * getChips()/50);
+                bet(toCall - getBetAmount() + randomBet * 50);
+            }
         }
     }
 

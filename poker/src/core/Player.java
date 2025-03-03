@@ -7,7 +7,7 @@ public class Player {
     private ArrayList<Card> hand;
     private int chips;
     private boolean folded;
-    private Game game;
+    protected Game game;
     private int bet;
 
     public Player(String name, int initialChips, Game game) {

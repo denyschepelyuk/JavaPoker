@@ -56,7 +56,8 @@ public class CommandHandler {
                 players.get(0).check();
                 break;
             default:
-                System.out.println("Invalid command");
+                System.out.println("Commands: check, bet, call, fold, help");
+                handleInput();
                 break;
         }
     }
