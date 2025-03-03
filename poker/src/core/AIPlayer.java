@@ -20,6 +20,9 @@ public class AIPlayer extends Player {
             }
             else {
                 int randomBet = (int) (Math.random() * getChips()/50);
+                if (randomBet == 0)
+                    check();
+
                 bet(toCall - getBetAmount() + randomBet * 50);
             }
         }
@@ -29,6 +32,9 @@ public class AIPlayer extends Player {
             }
             else {
                 int randomBet = (int) (Math.random() * getChips()/50);
+                if (randomBet == 0)
+                    check();
+
                 bet(toCall - getBetAmount() + randomBet * 50);
             }
         }

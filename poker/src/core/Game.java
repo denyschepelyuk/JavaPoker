@@ -52,12 +52,30 @@ public class Game {
         return (activePlayers <= 1);
     }
 
-    private void _updateAIPlayers() {
+    private void _updatePlayers() {
         for (Player p : players) {
-            if (p instanceof AIPlayer && !p.isFolded()) {
-                ((AIPlayer) p).makeDecision();
+            if (p instanceof AIPlayer) {
+                if (!p.isFolded())
+                    ((AIPlayer) p).makeDecision();
+            }
+            else {
+                if (!p.isFolded())
+                    commandHandler.handleInput();
             }
         }
+
+
+        int bet = players.get(0).getBetAmount();
+        for (Player p : players)
+            if (!p.isFolded())
+                bet = Math.max(bet, p.getBetAmount());
+
+        for (Player p : players)
+            if (!p.isFolded())
+                if (p.getBetAmount() != bet && p.getChips() != 0) {
+                    _updatePlayers();
+                    break;
+                }
     }
 
     private void _render() {
@@ -77,26 +95,14 @@ public class Game {
     public void run(int playersCount) {
         _init(playersCount);
         while (isRunning) {
-            // AI players make decisions
-            _updateAIPlayers();
             _render();
+            // Players make decisions till those not folded have equal bets
+            _updatePlayers();
             if (_gameEnded()) {
                 isRunning = false;
                 break;
             }
-
-            // Human player makes decision
-            if (!players.get(0).isFolded()) {
-                commandHandler.handleInput();
-            }
-
-            if (_gameEnded()) {
-                isRunning = false;
-                break;
-            }
-
             table.deal(deck);
-
             System.out.println();
         }
         _findWinner();
