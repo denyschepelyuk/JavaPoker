@@ -6,7 +6,7 @@ import core.Table;
 import core.Card;
 
 public class ConsoleUI {
-    private static final int BLOCK_WIDTH = 25;
+    private static final int BLOCK_WIDTH = 45;
 
     private String createBlock(String title, String content) {
         StringBuilder block = new StringBuilder();
@@ -23,7 +23,11 @@ public class ConsoleUI {
     }
 
     public void renderGame(Game game) {
-        System.out.println("=============================");
+        for (int i = 0; i < 50; i++) {
+            System.out.println();
+        }
+
+        //System.out.println("=============================");
 
         Table table = game.getTable();
 
@@ -49,7 +53,7 @@ public class ConsoleUI {
             System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
         }
 
-        System.out.println("=============================");
+        //System.out.println("=============================");
     }
 
     public void displayWinner(Game game, Player winner) {
