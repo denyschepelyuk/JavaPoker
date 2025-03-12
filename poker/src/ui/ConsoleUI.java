@@ -4,6 +4,7 @@ import core.Game;
 import core.Player;
 import core.Table;
 import core.Card;
+import util.CardUtils;
 
 public class ConsoleUI {
     private static final int BLOCK_WIDTH = 45;
@@ -23,12 +24,6 @@ public class ConsoleUI {
     }
 
     public void renderGame(Game game) {
-        for (int i = 0; i < 50; i++) {
-            System.out.println();
-        }
-
-        //System.out.println("=============================");
-
         Table table = game.getTable();
 
         StringBuilder communityCards = new StringBuilder();
@@ -55,7 +50,9 @@ public class ConsoleUI {
     }
 
     public void displayWinner(Game game, Player winner) {
-        System.out.println("The winner is: " + winner.getName() + " with " + winner.getChips() + " chips!");
+        System.out.print("Player " + winner.getName() + " won " + game.getTable().getPotAmount() + " chips! with: ");
+        CardUtils.printCombination(winner.getHand(), game.getTable().getCommunityCards());
+        System.out.println();
 
         Table table = game.getTable();
 

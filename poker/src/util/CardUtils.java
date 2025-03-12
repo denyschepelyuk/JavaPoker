@@ -66,6 +66,23 @@ public class CardUtils {
         return hand.get(0).getRank();
     }
 
+    public static void printCombination(ArrayList<Card> playerHand, ArrayList<Card> communityCards){
+        ArrayList<Card> hand = new ArrayList<>(playerHand);
+        hand.addAll(communityCards);
+        sortCardsByDecreasingRank(hand);
+
+        if (isRoyalFlush(hand)) System.out.print("Royal Flush");
+        else if (isStraightFlush(hand) != null) System.out.print("Straight Flush");
+        else if (isFourOfAKind(hand) != null) System.out.print("Four of a Kind");
+        else if (isFullHouse(hand) != null) System.out.print("Full House");
+        else if (isFlush(hand) != null) System.out.print("Flush");
+        else if (isStraight(hand) != null) System.out.print("Straight");
+        else if (isThreeOfAKind(hand) != null) System.out.print("Three of a Kind");
+        else if (isTwoPair(hand) != null) System.out.print("Two Pair");
+        else if (isPair(hand) != null) System.out.print("Pair");
+        else System.out.print("High Card");
+    }
+
     private static boolean isRoyalFlush(ArrayList<Card> hand) {
         return isStraightFlush(hand) == Card.Rank.TEN;
     }
