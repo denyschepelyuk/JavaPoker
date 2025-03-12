@@ -52,8 +52,6 @@ public class ConsoleUI {
             }
             System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
         }
-
-        //System.out.println("=============================");
     }
 
     public void displayWinner(Game game, Player winner) {
