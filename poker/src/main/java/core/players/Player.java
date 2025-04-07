@@ -1,4 +1,7 @@
-package core;
+package main.java.core.players;
+
+import main.java.core.cards.Card;
+import main.java.core.game.Game;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,11 @@
-package core;
+package main.java.core.game;
 
-import ui.*;
-import util.*;
+import main.java.core.players.AIPlayer;
+import main.java.core.players.Player;
+import main.java.core.cards.Deck;
+import main.java.ui.CommandHandler;
+import main.java.ui.ConsoleUI;
+import main.java.util.CardUtils;
 
 import java.util.ArrayList;
 

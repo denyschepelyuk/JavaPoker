@@ -1,4 +1,7 @@
-package core;
+package main.java.core.game;
+
+import main.java.core.cards.Card;
+import main.java.core.cards.Deck;
 
 import java.util.ArrayList;
 

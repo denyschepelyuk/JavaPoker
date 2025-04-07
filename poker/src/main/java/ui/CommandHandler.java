@@ -1,6 +1,7 @@
-package ui;
+package main.java.ui;
 
-import core.*;
+import main.java.core.game.Game;
+import main.java.core.players.Player;
 
 import java.util.ArrayList;
 

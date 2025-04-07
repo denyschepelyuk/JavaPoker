@@ -1,10 +1,10 @@
-package ui;
+package main.java.ui;
 
-import core.Game;
-import core.Player;
-import core.Table;
-import core.Card;
-import util.CardUtils;
+import main.java.core.game.Game;
+import main.java.core.players.Player;
+import main.java.core.game.Table;
+import main.java.core.cards.Card;
+import main.java.util.CardUtils;
 
 public class ConsoleUI {
     private static final int BLOCK_WIDTH = 45;
