@@ -1,7 +1,7 @@
-package main.java.core.players;
+package core.players;
 
-import main.java.core.game.Game;
-import main.java.util.CardUtils;
+import core.game.Game;
+import util.CardUtils;
 
 public class AIPlayer extends Player {
     public AIPlayer(String name, int initialChips, Game game) {

@@ -1,8 +1,8 @@
-package main.java;
+package app;
 
-import main.java.core.game.Game;
+import core.game.Game;
 
-public class Main {
+public class App {
     public static void main(String[] args) {
         Game game = new Game();
         game.run(3);

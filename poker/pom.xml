@@ -5,8 +5,7 @@
            http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- Replace these with your desired groupId/artifactId/version -->
-    <groupId>com.example</groupId>
+    <groupId>main.java</groupId>
     <artifactId>poker</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -16,22 +15,15 @@
     <url>http://www.example.com</url>
 
     <properties>
-        <!-- Java version and encoding -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <!-- Replace with your actual main class (package + class name) -->
-        <main.class>main.java.Main</main.class>
+        <main.class>app.App</main.class>
     </properties>
-
-    <dependencies>
-        <!-- Add any needed dependencies here -->
-    </dependencies>
 
     <build>
         <plugins>
-            <!-- Maven Compiler Plugin -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
@@ -41,7 +33,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Exec Maven Plugin (to run your main class easily) -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>

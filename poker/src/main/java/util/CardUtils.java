@@ -1,10 +1,10 @@
-package main.java.util;
+package util;
 
 import java.util.*;
 
-import main.java.core.cards.Card;
-import main.java.core.game.Game;
-import main.java.core.players.Player;
+import core.cards.Card;
+import core.game.Game;
+import core.players.Player;
 
 public class CardUtils {
     public static Player compareHands(Game game) {

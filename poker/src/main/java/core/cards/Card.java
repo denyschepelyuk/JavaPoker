@@ -1,4 +1,4 @@
-package main.java.core.cards;
+package core.cards;
 
 import java.util.HashMap;
 import java.util.Map;
