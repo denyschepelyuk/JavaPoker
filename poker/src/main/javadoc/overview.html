@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        ul {
+            margin-top: 0.5em;
+        }
+        li {
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+<h1>Java Poker Project - Documentation Overview</h1>
+<p>
+    The Java Poker Project simulates a simplified poker game, offering a modular and easily extensible design.
+    The application leverages object-oriented principles to provide clear separation between game logic, user interface,
+    and utility functions.
+</p>
+
+<h2>Project Structure</h2>
+<ul>
+    <li>
+        <strong>app</strong>:
+        <em>Contains the main application entry point.</em> It initializes and launches the game.
+    </li>
+    <li>
+        <strong>core</strong>:
+        <em>Holds the primary game logic.</em> Its sub-packages include:
+        <ul>
+            <li>
+                <strong>cards</strong>: Manages playing cards and decks.
+            </li>
+            <li>
+                <strong>game</strong>: Orchestrates gameplay, handling game rounds and state management via the Table and Game classes.
+            </li>
+            <li>
+                <strong>players</strong>: Represents the human and AI players with their betting and hand management features.
+            </li>
+        </ul>
+    </li>
+    <li>
+        <strong>ui</strong>:
+        <em>Handles the user interface.</em> This package processes user input via the console and displays game updates.
+    </li>
+    <li>
+        <strong>util</strong>:
+        <em>Provides utility support.</em> It includes classes for evaluating card hands, sorting card data, and managing game configurations.
+    </li>
+</ul>
+
+<h2>Implementation Details</h2>
+<p>
+    The design of the Java Poker Project is centered on a modular approach:
+</p>
+<ul>
+    <li>
+        <strong>Modular Packages:</strong> Each package focuses on a specific area of responsibility,
+        ensuring that game logic, user interaction, and utility functions are well separated.
+    </li>
+    <li>
+        <strong>Game Mechanics:</strong> The <em>core</em> package manages the gameplay, including shuffling
+        and dealing cards, managing betting rounds, and determining the game winner.
+    </li>
+    <li>
+        <strong>User Interface:</strong> The <em>ui</em> package encapsulates the logic required for user interaction,
+        such as input handling and game status display.
+    </li>
+    <li>
+        <strong>Utilities:</strong> The <em>util</em> package facilitates operations like hand evaluation and configuration management,
+        making the core game logic more maintainable.
+    </li>
+</ul>
+
+<h2>Usage</h2>
+<p>
+    The application is launched via the <strong>app.App</strong> class, which contains the <code>main</code>
+    method. On execution, a new game is initialized, and the game loop begins, allowing for player interaction
+    via a command-line interface.
+</p>
+
+<h2>Additional Documentation</h2>
+<p>
+    This documentation is generated using the Maven Javadoc Plugin. It includes comprehensive API details for
+    each package and class, facilitating a deeper understanding of the implementation.
+</p>
+</body>
+</html>
