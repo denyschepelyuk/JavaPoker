@@ -2,6 +2,8 @@
 
 The Java Poker Project is a console-based poker game developed in Java. The project is designed using object-oriented principles and is organized into several packages that separate game logic, user interface, utilities, and the application entry point.
 
+**Alternatively:** you can find `javadoc` documentation at <https://denyschepelyuk.github.io/JavaPoker/>
+
 ## How to Run the Project
 
 ### Prerequisites
