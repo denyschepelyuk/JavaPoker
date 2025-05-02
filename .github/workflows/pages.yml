@@ -1,6 +1,5 @@
 name: Publish Javadoc
 
-# Trigger on every push to main
 on:
   push:
     branches:
@@ -11,33 +10,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Checkout your repository
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           persist-credentials: true
           fetch-depth: 0
 
-      # 2) Install JDK 8
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '8'
 
-      # 3) Build the Maven site (including Javadoc) from the poker/ folder
       - name: Build site
         working-directory: poker
         run: mvn clean site
 
-      # 4) Copy the generated Javadoc into a top-level docs/ folder
       - name: Copy Javadoc to docs/
+        working-directory: poker
         run: |
-          rm -rf docs
-          mkdir docs
-          cp -R poker/target/site/apidocs/* docs/
+          rm -rf ../docs
+          mkdir ../docs
+          cp -R target/site/apidocs/* ../docs/
 
-      # 5) Commit & push docs/ back to main
       - name: Commit docs/
         run: |
           git config user.name "github-actions[bot]"
