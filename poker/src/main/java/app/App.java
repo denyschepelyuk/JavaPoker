@@ -3,7 +3,20 @@ package app;
 import core.game.Game;
 import ui.InputHandler;
 
+/**
+ * Entry point for the Java Poker application.
+ * <p>
+ * Prompts the user for the number of AI opponents and starts the game.
+ */
 public class App {
+
+    /**
+     * Main method to launch the Poker game.
+     * <p>
+     * Prompts for the number of bots (1-10) and uses a default of 3 on invalid input.
+     *
+     * @param args command-line arguments (ignored)
+     */
     public static void main(String[] args) {
         int numBots = 3; // Default number of players
         System.out.println("Welcome to Poker!");

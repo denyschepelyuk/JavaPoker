@@ -6,7 +6,18 @@ import core.cards.Card;
 import core.game.Game;
 import core.players.Player;
 
+/**
+ * Utility class providing methods to evaluate poker hands,
+ * compare players’ hands, and display hand combinations.
+ */
 public class CardUtils {
+    /**
+     * Compares all active (non-folded) players’ hands and returns the winning player.
+     * Winners are determined first by hand strength, then by highest rank on ties.
+     *
+     * @param game the current Game instance containing players and community cards
+     * @return the Player with the best hand, or null if no players remain
+     */
     public static Player compareHands(Game game) {
         Player winner = null;
         int bestHandValue = 11;
@@ -34,6 +45,15 @@ public class CardUtils {
         return winner;
     }
 
+    /**
+     * Evaluates the combined strength of a player's hand and the community cards.
+     * Returns an integer where 1 represents the strongest hand (Royal Flush)
+     * and 10 the weakest (High Card).
+     *
+     * @param playerHand     the list of the player's private cards
+     * @param communityCards the list of community cards on the table
+     * @return numeric strength ranking (1 strongest, 10 weakest)
+     */
     public static int evaluateHand(ArrayList<Card> playerHand, ArrayList<Card> communityCards) {
         ArrayList<Card> hand = new ArrayList<>(playerHand);
         hand.addAll(communityCards);
@@ -51,6 +71,14 @@ public class CardUtils {
         return 10;
     }
 
+    /**
+     * Finds the highest card rank present in the combined player and community hand.
+     * This is used to break ties when multiple hands have equal strength.
+     *
+     * @param playerHand     the list of the player's private cards
+     * @param communityCards the list of community cards on the table
+     * @return the highest Card.Rank found
+     */
     public static Card.Rank getHighestRank(ArrayList<Card> playerHand, ArrayList<Card> communityCards) {
         ArrayList<Card> hand = new ArrayList<>(playerHand);
         hand.addAll(communityCards);
@@ -68,7 +96,13 @@ public class CardUtils {
         return hand.get(0).getRank();
     }
 
-    public static void printCombination(ArrayList<Card> playerHand, ArrayList<Card> communityCards){
+    /**
+     * Prints the type of poker hand combination (e.g., "Full House", "Straight").
+     *
+     * @param playerHand     the list of the player's private cards
+     * @param communityCards the list of community cards on the table
+     */
+    public static void printCombination(ArrayList<Card> playerHand, ArrayList<Card> communityCards) {
         ArrayList<Card> hand = new ArrayList<>(playerHand);
         hand.addAll(communityCards);
         sortCardsByDecreasingRank(hand);
@@ -214,7 +248,6 @@ public class CardUtils {
     private static Card.Rank isPair(ArrayList<Card> hand) {
         return findSameRank(hand, 2);
     }
-
     private static Card.Rank findSameRank(ArrayList<Card> hand, int count) {
         Map<Card.Rank, Integer> rankCount = new HashMap<>();
         for (Card card : hand) {

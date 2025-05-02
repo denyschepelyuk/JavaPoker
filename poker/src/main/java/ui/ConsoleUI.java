@@ -6,9 +6,20 @@ import core.game.Table;
 import core.cards.Card;
 import util.CardUtils;
 
+/**
+ * Handles the visual display of the Poker game state on the console.
+ * Renders community cards, pot amount, and each player's status in a formatted block layout.
+ */
 public class ConsoleUI {
     private static final int BLOCK_WIDTH = 45;
 
+    /**
+     * Constructs a text block with a title and content, framed by a border.
+     *
+     * @param title   the heading of the block
+     * @param content the body text displayed beneath the title
+     * @return formatted string representing the block
+     */
     private String createBlock(String title, String content) {
         StringBuilder block = new StringBuilder();
         block.append(" +").append("-".repeat(BLOCK_WIDTH - 2)).append("+\n");
@@ -18,11 +29,24 @@ public class ConsoleUI {
         return block.toString();
     }
 
+    /**
+     * Centers the given text within a field of specified width by adding padding.
+     *
+     * @param text  the text to be centered
+     * @param width the total field width
+     * @return padded string with text centered
+     */
     private String centerText(String text, int width) {
         int padding = (width - text.length()) / 2;
         return " ".repeat(padding) + text + " ".repeat(width - text.length() - padding);
     }
 
+    /**
+     * Displays the current state of the game, including community cards, pot amount,
+     * and each player's name, chip count, and hand or fold status.
+     *
+     * @param game the Game instance providing the current game state
+     */
     public void renderGame(Game game) {
         Table table = game.getTable();
 
@@ -49,6 +73,13 @@ public class ConsoleUI {
         }
     }
 
+    /**
+     * Displays the winner of the game, the winning hand combination, and the final table state.
+     * After displaying, pauses briefly before the next round begins.
+     *
+     * @param game   the Game instance providing end-of-game state
+     * @param winner the Player who won the pot
+     */
     public void displayWinner(Game game, Player winner) {
         System.out.print(winner.getName() + " won " + game.getTable().getPotAmount() + " chips! with: ");
         CardUtils.printCombination(winner.getHand(), game.getTable().getCommunityCards());
@@ -79,11 +110,11 @@ public class ConsoleUI {
         if (game._gameEnded()) return;
         System.out.println(createBlock("Next Round Starts", "Please wait 5 seconds..."));
         try {
-            // pause for 3000 milliseconds (3 seconds)
+            // Pause for 5000 milliseconds (5 seconds)
             Thread.sleep(5000);
         } catch (InterruptedException e) {
-            // if another thread interrupts this one during sleep
-            Thread.currentThread().interrupt(); // restore interrupt flag
+            // Restore interrupt flag and notify
+            Thread.currentThread().interrupt();
             System.out.println("Sleep was interrupted");
         }
     }
