@@ -1,5 +1,9 @@
 name: Publish Javadoc
 
+# give the GITHUB_TOKEN write access to repo contents
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -10,34 +14,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Check out your code
+      # 1) Check out the code (with the token persisted)
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           persist-credentials: true
           fetch-depth: 0
 
-      # 2) Install JDK 8
+      # 2) Install Java 8
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: '8'
 
-      # 3) Build the Maven site (including Javadoc) from the poker/ folder
-      - name: Build site
+      # 3) Build your Javadoc (from the poker/ subfolder)
+      - name: Build Javadoc
         working-directory: poker
-        run: mvn javadoc:javadoc
+        run: mvn clean javadoc:javadoc
 
-      # 4) Copy the generated apidocs into a top-level docs/ folder
+      # 4) Copy the generated apidocs into docs/
       - name: Copy Javadoc to docs/
         run: |
-          # remove any old site
           rm -rf docs
-          # recreate docs folder
           mkdir docs
-          # copy everything from poker/target/site/apidocs into docs/
-          cp -R poker/target/site/apidocs/* docs/
+          cp -R poker/target/site/apidocs/. docs/
 
       # 5) Commit & push docs/ back to main
       - name: Commit docs/
