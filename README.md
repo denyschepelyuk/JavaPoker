@@ -93,6 +93,3 @@ The project is organized into the following packages:
 ## Summary
 
 The Java Poker Project provides a modular and extensible framework for simulating a poker game. Use Maven to compile and launch the project, interact with the game via simple console commands, and generate comprehensive Javadoc documentation for a detailed overview of the implementation.
-
-Happy Coding!
-```
