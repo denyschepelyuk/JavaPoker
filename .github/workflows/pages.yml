@@ -25,12 +25,12 @@ jobs:
           distribution: temurin
           java-version: '8'
 
-      # 3) Build the site (including Javadoc) from the poker/ subfolder
+      # 3) Build the Maven site (including Javadoc) from the poker/ folder
       - name: Build site
         working-directory: poker
         run: mvn clean site
 
-      # 4) Copy the generated Javadoc into docs/
+      # 4) Copy the generated Javadoc into a top-level docs/ folder
       - name: Copy Javadoc to docs/
         run: |
           rm -rf docs
