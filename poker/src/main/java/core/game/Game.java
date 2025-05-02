@@ -18,8 +18,8 @@ public class Game {
     private boolean isRunning;
     private boolean isRoundRunning;
 
-    public Game(int playersCount) {
-        _init(playersCount);
+    public Game(int botsCount) {
+        _init(botsCount);
     }
 
     private void prepareForNextRound() {
@@ -35,7 +35,7 @@ public class Game {
         }
     }
 
-    public void _init(int playersCount) {
+    public void _init(int botsCount) {
         // Initialize Game properties
         table = new Table();
         players = new ArrayList<>();
@@ -46,7 +46,7 @@ public class Game {
         // Add Human player
         players.add(new Player("You", 1000, this));
         // Add AI players
-        for (int i = 1; i < playersCount; i++) {
+        for (int i = 1; i <= botsCount; i++) {
             AIPlayer aiPlayer = new AIPlayer("Bot" + i, 1000, this);
             players.add(aiPlayer);
         }
