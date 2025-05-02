@@ -36,6 +36,12 @@ The `ui.CommandHandler` class processes your console input and maps it to game a
 
 ## Generating Javadoc Documentation
 
+There is a workflow in this repository at `.github/workflows/pages.yml` that regenerate javadocs and then host website at:
+```
+https://denyschepelyuk.github.io/JavaPoker/
+```
+
+
 The project includes detailed Javadoc comments, which can be generated using Maven. The Javadoc documentation includes package overviews provided by `package-info.java` files in each package.
 
 ### To Generate Javadoc:
