@@ -50,7 +50,7 @@ public class ConsoleUI {
     }
 
     public void displayWinner(Game game, Player winner) {
-        System.out.print("Player " + winner.getName() + " won " + game.getTable().getPotAmount() + " chips! with: ");
+        System.out.print(winner.getName() + " won " + game.getTable().getPotAmount() + " chips! with: ");
         CardUtils.printCombination(winner.getHand(), game.getTable().getCommunityCards());
         System.out.println();
 
@@ -74,6 +74,17 @@ public class ConsoleUI {
                 }
             }
             System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
+        }
+
+        if (game._gameEnded()) return;
+        System.out.println(createBlock("Next Round Starts", "Please wait 5 seconds..."));
+        try {
+            // pause for 3000 milliseconds (3 seconds)
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            // if another thread interrupts this one during sleep
+            Thread.currentThread().interrupt(); // restore interrupt flag
+            System.out.println("Sleep was interrupted");
         }
     }
 }

@@ -16,34 +16,45 @@ public class Game {
     private ConsoleUI UI;
     private CommandHandler commandHandler;
     private boolean isRunning;
+    private boolean isRoundRunning;
 
-    public Game() {
-        deck = new Deck();
-        table = new Table();
-        players = new ArrayList<>();
-        UI = new ConsoleUI();
-        isRunning = true;
-        commandHandler = new CommandHandler(this);
+    public Game(int playersCount) {
+        _init(playersCount);
     }
 
-    public void _init(int playersCount) {
-        Player player1 = new Player("You", 1000, this);
-        players.add(player1);
-
-        for (int i = 1; i < playersCount; i++) {
-            AIPlayer aiPlayer = new AIPlayer("Player" + i, 1000, this);
-            players.add(aiPlayer);
-        }
-
+    private void prepareForNextRound() {
+        table.reset();
+        isRoundRunning = true;
+        // Initialize deck and shuffle
         deck = new Deck();
         deck.shuffle();
-
+        // Deal 2 cards to each player
         for (Player p : players) {
+            p.reset();
             deck.dealHand(2, p);
         }
     }
 
-    private boolean _gameEnded() {
+    public void _init(int playersCount) {
+        // Initialize Game properties
+        table = new Table();
+        players = new ArrayList<>();
+        UI = new ConsoleUI();
+        commandHandler = new CommandHandler(this);
+        isRunning = true;
+
+        // Add Human player
+        players.add(new Player("You", 1000, this));
+        // Add AI players
+        for (int i = 1; i < playersCount; i++) {
+            AIPlayer aiPlayer = new AIPlayer("Bot" + i, 1000, this);
+            players.add(aiPlayer);
+        }
+        // Reset table, deck and players for the first round
+        prepareForNextRound();
+    }
+
+    private boolean _roundEnded() {
         if (table.getCommunityCards().size() == 5) {
             return true;
         }
@@ -56,8 +67,13 @@ public class Game {
         return (activePlayers <= 1);
     }
 
+    public boolean _gameEnded() {
+        return !isRunning;
+    }
+
     private void _updatePlayers(boolean isFirstRound) {
         for (Player p : players) {
+            if (_gameEnded()) return;
             if (p.isFolded()) continue;
 
             if (!isFirstRound)
@@ -89,24 +105,31 @@ public class Game {
     public Table getTable() { return table; }
     public ArrayList<Player> getPlayers() { return players; }
 
-    public void run(int playersCount) {
-        _init(playersCount);
-        while (isRunning) {
+    private void round() {
+        // Round loop.
+        while (isRoundRunning) {
             _render();
-            // Players make decisions till those not folded have equal bets
             _updatePlayers(true);
-            if (_gameEnded()) {
-                isRunning = false;
+            if (_roundEnded() || _gameEnded()) {
+                isRoundRunning = false;
                 break;
             }
             table.deal(deck);
-            System.out.println();
         }
-        _findWinner();
-        table.reset();
-        for (Player p : players) {
-            p.reset();
+    }
+
+    public void run() {
+        // Main game loop
+        while (!_gameEnded()) {
+            // Main game loop.
+            round();
+            _findWinner();
+            prepareForNextRound();
         }
+    }
+
+    public void stop() {
+        isRunning = false;
     }
 
     public int getHighestBet() {

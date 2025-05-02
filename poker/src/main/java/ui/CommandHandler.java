@@ -56,6 +56,13 @@ public class CommandHandler {
                 }
                 players.get(0).check();
                 break;
+            case "exit":
+            case "e":
+            case "quit":
+            case "q":
+                    System.out.println("Exiting game...");
+                    game.stop();
+                    break;
             default:
                 System.out.println("Commands: check, bet, call, fold, help");
                 handleInput();

@@ -62,6 +62,10 @@ public class Player {
      */
     public void setChips(int chips) { this.chips = chips; }
     public void reset() {
+        if (getChips() == 0) {
+            System.out.println(name + "'s chips were reset to 1000.");
+            setChips(1000);
+        }
         hand.clear();
         folded = false;
         bet = 0;

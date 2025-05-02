@@ -4,7 +4,7 @@ import core.game.Game;
 
 public class App {
     public static void main(String[] args) {
-        Game game = new Game();
-        game.run(3);
+        Game game = new Game(3);
+        game.run();
     }
 }
