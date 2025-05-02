@@ -27,7 +27,7 @@ jobs:
       # 3) Build the Maven site (including Javadoc) from the poker/ folder
       - name: Build site
         working-directory: poker
-        run: mvn clean site
+        run: mvn javadoc:javadoc
 
       # 4) Copy the generated apidocs into a top-level docs/ folder
       - name: Copy Javadoc to docs/
@@ -37,7 +37,7 @@ jobs:
           # recreate docs folder
           mkdir docs
           # copy everything from poker/target/site/apidocs into docs/
-          cp -R poker/target/site/apidocs/ docs/
+          cp -R poker/target/site/apidocs/* docs/
 
       # 5) Commit & push docs/ back to main
       - name: Commit docs/
