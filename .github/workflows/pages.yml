@@ -37,7 +37,7 @@ jobs:
           # recreate docs folder
           mkdir docs
           # copy everything from poker/target/site/apidocs into docs/
-          cp -R poker/target/site/apidocs/. docs/
+          cp -R poker/target/site/apidocs/ docs/
 
       # 5) Commit & push docs/ back to main
       - name: Commit docs/
