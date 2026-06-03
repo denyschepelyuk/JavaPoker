@@ -2,6 +2,7 @@ package core.players;
 
 import core.cards.Card;
 import core.game.Game;
+import util.GameConfig;
 
 import java.util.ArrayList;
 
@@ -194,8 +195,8 @@ public class Player {
      */
     public void reset() {
         if (getChips() == 0) {
-            System.out.println(name + "'s chips were reset to 1000.");
-            setChips(1000);
+            System.out.println(name + "'s chips were reset to " + GameConfig.STARTING_CHIPS + ".");
+            setChips(GameConfig.STARTING_CHIPS);
         }
         hand.clear();
         folded = false;

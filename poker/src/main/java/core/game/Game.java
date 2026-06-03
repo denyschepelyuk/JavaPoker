@@ -6,6 +6,7 @@ import core.cards.Deck;
 import ui.CommandHandler;
 import ui.ConsoleUI;
 import util.CardUtils;
+import util.GameConfig;
 
 import java.util.ArrayList;
 
@@ -44,10 +45,10 @@ public class Game {
         isRunning = true;
 
         // Add human player
-        players.add(new Player("You", 1000, this));
+        players.add(new Player("You", GameConfig.STARTING_CHIPS, this));
         // Add AI opponents
         for (int i = 1; i <= botsCount; i++) {
-            players.add(new AIPlayer("Bot" + i, 1000, this));
+            players.add(new AIPlayer("Bot" + i, GameConfig.STARTING_CHIPS, this));
         }
         // Prepare and start the first round
         prepareForNextRound();
@@ -64,7 +65,7 @@ public class Game {
         deck.shuffle();
         for (Player p : players) {
             p.reset();
-            deck.dealHand(2, p);
+            deck.dealHand(GameConfig.HAND_SIZE, p);
         }
     }
 
@@ -75,7 +76,7 @@ public class Game {
      * @return true if the round is complete, false otherwise
      */
     private boolean _roundEnded() {
-        if (table.getCommunityCards().size() == 5) {
+        if (table.getCommunityCards().size() == GameConfig.MAX_COMMUNITY_CARDS) {
             return true;
         }
         int active = 0;
