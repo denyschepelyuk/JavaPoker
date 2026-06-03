@@ -22,6 +22,7 @@ public class Game {
     private CommandHandler commandHandler;
     private boolean isRunning;
     private boolean isRoundRunning;
+    private int dealerIndex;
 
     /**
      * Constructs a new Game instance and initializes it with the given number of AI opponents.
@@ -66,6 +67,29 @@ public class Game {
         for (Player p : players) {
             p.reset();
             deck.dealHand(GameConfig.HAND_SIZE, p);
+        }
+        assignPositions();
+        postBlinds();
+        dealerIndex = (dealerIndex + 1) % players.size();
+    }
+
+    private void assignPositions() {
+        Player.Position[] seatOrder = {
+            Player.Position.BTN, Player.Position.SB, Player.Position.BB,
+            Player.Position.UTG, Player.Position.UTG_PLUS_1,
+            Player.Position.LJ, Player.Position.HJ, Player.Position.CO
+        };
+        for (int i = 0; i < players.size(); i++) {
+            int playerIndex = (dealerIndex + i) % players.size();
+            Player.Position pos = i < seatOrder.length ? seatOrder[i] : Player.Position.Other;
+            players.get(playerIndex).setPosition(pos);
+        }
+    }
+
+    private void postBlinds() {
+        for (Player p : players) {
+            if (p.getPosition() == Player.Position.SB) p.bet(GameConfig.SMALL_BLIND);
+            else if (p.getPosition() == Player.Position.BB) p.bet(GameConfig.BIG_BLIND);
         }
     }
 
