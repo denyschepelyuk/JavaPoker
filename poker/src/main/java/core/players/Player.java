@@ -10,6 +10,37 @@ import java.util.ArrayList;
  * hand of cards, chip count, and betting actions.
  */
 public class Player {
+    /**
+     * Enumeration of standard poker positions at the table,
+     * each with a full name and a short abbreviation.
+     */
+    public enum Position {
+        UTG("Under the Gun", "UTG"),
+        UTG_PLUS_1("Under the Gun + 1", "UTG+1"),
+        LJ("Lojack", "LJ"),
+        HJ("Hijack", "HJ"),
+        CO("Cutoff", "CO"),
+        BTN("Button", "BTN"),
+        SB("Small Blind", "SB"),
+        BB("Big Blind", "BB"),
+        Other("Other", "Null");
+
+        private final String name;
+        private final String shortName;
+
+        Position(String name, String shortName) {
+            this.name = name;
+            this.shortName = shortName;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getShortName() {
+            return shortName;
+        }
+    }
 
     /** Player's display name. */
     private String name;
@@ -23,6 +54,8 @@ public class Player {
     protected Game game;
     /** The amount the player has bet in the current round. */
     private int bet;
+    /** The player's position at the table for the current hand. */
+    private Position position;
 
     /**
      * Constructs a new player with a given name, initial chip count, and game context.
@@ -38,6 +71,7 @@ public class Player {
         this.folded = false;
         this.game = game;
         this.bet = 0;
+        this.position = Position.Other;
     }
 
     /**
@@ -136,6 +170,24 @@ public class Player {
     }
 
     /**
+     * Sets the player's position at the table for the current hand.
+     *
+     * @param position the PokerPosition to assign to this player
+     */
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    /**
+     * Retrieves the player's current position at the table.
+     *
+     * @return the PokerPosition of this player
+     */
+    public Position getPosition() {
+        return position;
+    }
+
+    /**
      * Resets the player's state for a new game round.
      * If the player is out of chips, resets them to 1000.
      * Clears the hand, resets folded status and bet amount.
@@ -148,5 +200,6 @@ public class Player {
         hand.clear();
         folded = false;
         bet = 0;
+        position = Position.Other;
     }
 }
