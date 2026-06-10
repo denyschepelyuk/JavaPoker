@@ -22,7 +22,7 @@ public class Game {
     private CommandHandler commandHandler;
     private boolean isRunning;
     private boolean isRoundRunning;
-    private int dealerIndex;
+    private int dealerIndex = -1;
 
     /**
      * Constructs a new Game instance and initializes it with the given number of AI opponents.
@@ -60,6 +60,7 @@ public class Game {
      * and dealing two cards to each player.
      */
     private void prepareForNextRound() {
+        dealerIndex = (dealerIndex + 1) % players.size();
         table.reset();
         isRoundRunning = true;
         deck = new Deck();
@@ -70,7 +71,6 @@ public class Game {
         }
         assignPositions();
         postBlinds();
-        dealerIndex = (dealerIndex + 1) % players.size();
     }
 
     private void assignPositions() {
@@ -126,20 +126,24 @@ public class Game {
      *
      * @param isFirstRound true if this is the first betting phase of the round
      */
-    private void _updatePlayers(boolean isFirstRound) {
-        for (Player p : players) {
+    private void _updatePlayers(int startIndex, boolean firstPass) {
+        int n = players.size();
+        for (int i = 0; i < n; i++) {
+            Player p = players.get((startIndex + i) % n);
             if (_gameEnded()) return;
             if (p.isFolded()) continue;
-            if (!isFirstRound && (p.getBetAmount() == getHighestBet() || p.getChips() == 0)) continue;
+            if (p.getChips() == 0) continue;
+            if (!firstPass && p.getBetAmount() == getHighestBet()) continue;
             if (p instanceof AIPlayer) {
                 ((AIPlayer) p).makeDecision();
             } else {
                 commandHandler.handleInput();
             }
         }
-        for (Player p : players) {
+        for (int i = 0; i < n; i++) {
+            Player p = players.get((startIndex + i) % n);
             if (!p.isFolded() && p.getBetAmount() != getHighestBet() && p.getChips() != 0) {
-                _updatePlayers(false);
+                _updatePlayers(startIndex, false);
                 break;
             }
         }
@@ -167,9 +171,14 @@ public class Game {
      * and finding a winner when the round ends.
      */
     private void round() {
+        int n = players.size();
+        boolean isPreFlop = true;
         while (isRoundRunning) {
             _render();
-            _updatePlayers(true);
+            // Pre-flop: UTG (3 seats after BTN) acts first; post-flop: SB (1 seat after BTN) acts first
+            int startIndex = isPreFlop ? (dealerIndex + 3) % n : (dealerIndex + 1) % n;
+            isPreFlop = false;
+            _updatePlayers(startIndex, true);
             if (_roundEnded() || _gameEnded()) {
                 isRoundRunning = false;
             } else {
