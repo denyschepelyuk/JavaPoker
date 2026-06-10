@@ -6,6 +6,7 @@ import core.cards.Deck;
 import ui.CommandHandler;
 import ui.ConsoleUI;
 import util.CardUtils;
+import util.GameConfig;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class Game {
     private CommandHandler commandHandler;
     private boolean isRunning;
     private boolean isRoundRunning;
+    private int dealerIndex = -1;
 
     /**
      * Constructs a new Game instance and initializes it with the given number of AI opponents.
@@ -44,10 +46,10 @@ public class Game {
         isRunning = true;
 
         // Add human player
-        players.add(new Player("You", 1000, this));
+        players.add(new Player("You", GameConfig.STARTING_CHIPS, this));
         // Add AI opponents
         for (int i = 1; i <= botsCount; i++) {
-            players.add(new AIPlayer("Bot" + i, 1000, this));
+            players.add(new AIPlayer("Bot" + i, GameConfig.STARTING_CHIPS, this));
         }
         // Prepare and start the first round
         prepareForNextRound();
@@ -58,13 +60,36 @@ public class Game {
      * and dealing two cards to each player.
      */
     private void prepareForNextRound() {
+        dealerIndex = (dealerIndex + 1) % players.size();
         table.reset();
         isRoundRunning = true;
         deck = new Deck();
         deck.shuffle();
         for (Player p : players) {
             p.reset();
-            deck.dealHand(2, p);
+            deck.dealHand(GameConfig.HAND_SIZE, p);
+        }
+        assignPositions();
+        postBlinds();
+    }
+
+    private void assignPositions() {
+        Player.Position[] seatOrder = {
+            Player.Position.BTN, Player.Position.SB, Player.Position.BB,
+            Player.Position.UTG, Player.Position.UTG_PLUS_1,
+            Player.Position.LJ, Player.Position.HJ, Player.Position.CO
+        };
+        for (int i = 0; i < players.size(); i++) {
+            int playerIndex = (dealerIndex + i) % players.size();
+            Player.Position pos = i < seatOrder.length ? seatOrder[i] : Player.Position.Other;
+            players.get(playerIndex).setPosition(pos);
+        }
+    }
+
+    private void postBlinds() {
+        for (Player p : players) {
+            if (p.getPosition() == Player.Position.SB) p.bet(GameConfig.SMALL_BLIND);
+            else if (p.getPosition() == Player.Position.BB) p.bet(GameConfig.BIG_BLIND);
         }
     }
 
@@ -75,7 +100,7 @@ public class Game {
      * @return true if the round is complete, false otherwise
      */
     private boolean _roundEnded() {
-        if (table.getCommunityCards().size() == 5) {
+        if (table.getCommunityCards().size() == GameConfig.MAX_COMMUNITY_CARDS) {
             return true;
         }
         int active = 0;
@@ -101,20 +126,24 @@ public class Game {
      *
      * @param isFirstRound true if this is the first betting phase of the round
      */
-    private void _updatePlayers(boolean isFirstRound) {
-        for (Player p : players) {
+    private void _updatePlayers(int startIndex, boolean firstPass) {
+        int n = players.size();
+        for (int i = 0; i < n; i++) {
+            Player p = players.get((startIndex + i) % n);
             if (_gameEnded()) return;
             if (p.isFolded()) continue;
-            if (!isFirstRound && (p.getBetAmount() == getHighestBet() || p.getChips() == 0)) continue;
+            if (p.getChips() == 0) continue;
+            if (!firstPass && p.getBetAmount() == getHighestBet()) continue;
             if (p instanceof AIPlayer) {
                 ((AIPlayer) p).makeDecision();
             } else {
                 commandHandler.handleInput();
             }
         }
-        for (Player p : players) {
+        for (int i = 0; i < n; i++) {
+            Player p = players.get((startIndex + i) % n);
             if (!p.isFolded() && p.getBetAmount() != getHighestBet() && p.getChips() != 0) {
-                _updatePlayers(false);
+                _updatePlayers(startIndex, false);
                 break;
             }
         }
@@ -142,9 +171,14 @@ public class Game {
      * and finding a winner when the round ends.
      */
     private void round() {
+        int n = players.size();
+        boolean isPreFlop = true;
         while (isRoundRunning) {
             _render();
-            _updatePlayers(true);
+            // Pre-flop: UTG (3 seats after BTN) acts first; post-flop: SB (1 seat after BTN) acts first
+            int startIndex = isPreFlop ? (dealerIndex + 3) % n : (dealerIndex + 1) % n;
+            isPreFlop = false;
+            _updatePlayers(startIndex, true);
             if (_roundEnded() || _gameEnded()) {
                 isRoundRunning = false;
             } else {

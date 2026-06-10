@@ -69,7 +69,7 @@ public class ConsoleUI {
             } else {
                 playerHand.append("&$#@*");
             }
-            System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
+            System.out.println(createBlock(player.getName() + " [" + player.getPosition().getShortName() + "] [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
         }
     }
 
@@ -104,7 +104,7 @@ public class ConsoleUI {
                     playerHand.append(c.getDescription()).append(" ");
                 }
             }
-            System.out.println(createBlock(player.getName() + " [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
+            System.out.println(createBlock(player.getName() + " [" + player.getPosition().getShortName() + "] [Chips: " + player.getChips() + "]", playerHand.toString().trim()));
         }
 
         if (game._gameEnded()) return;

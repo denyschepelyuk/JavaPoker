@@ -2,6 +2,7 @@ package core.game;
 
 import core.cards.Card;
 import core.cards.Deck;
+import util.GameConfig;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class Table {
      * @param deck the Deck to draw cards from
      */
     public void deal(Deck deck) {
-        if (communityCards.size() == 5) {
+        if (communityCards.size() == GameConfig.MAX_COMMUNITY_CARDS) {
             return;
         }
 
